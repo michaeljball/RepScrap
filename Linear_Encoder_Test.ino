@@ -105,7 +105,8 @@ uint8_t oldSREG = SREG;                        // Store interrupt status registe
       // If both X-axis and Y-axis have reached their target - get new targets
       XaxisSetpoint =  random(200,3500);         // Keep target within bounds of Endpoints
       YaxisSetpoint =  random(200,3500);         // Keep target within bounds of Endpoints
-    }    
+    } 
+    reportTime = millis()+2000;
   }
   
   
@@ -137,26 +138,19 @@ void doXaxisENC() {                                  // ************** X- AXIS *
     if (PIND & 0x04) {                              // test for a low-to-high interrupt on channel A, 
         if ( !(PIND & 0x10)) {                      // check channel B for which way encoder turned, 
            XaxisENCPos = ++XaxisENCPos;               // CW rotation
-           PORTD = PIND | 0x40;                     // set direction output pin to 1 = forward, 
           }
         else {
            XaxisENCPos = --XaxisENCPos;               // CCW rotation
-           PORTD =PIND & 0xBF;                      // Set direction output pin to 0 = reverse, 
           }
     }
     else {                                          // it was a high-to-low interrupt on channel A
         if (PIND & 0x10) {                          // check channel B for which way encoder turned, 
            XaxisENCPos = ++XaxisENCPos;               // CW rotation
-           PORTD = PIND | 0x40;                     // Set direction output pin to 1 = forward, 
            }
         else {
            XaxisENCPos = --XaxisENCPos;               // CCW rotation
-           PORTD =PIND & 0xBF;                      // Set direction output pin to 0 = reverse, 
-           }
-         }
-    PORTD = PIND | 0x80;                            //  digitalWrite(encoderstep, HIGH);   generate step pulse high
-    PORTD = PIND | 0x80;                            //  digitalWrite(encoderstep, HIGH);   add a small delay
-    PORTD = PIND & 0x7F;                            //  digitalWrite(encoderstep, LOW);    reset step pulse
+        }
+    }
 }                                                   // End of interrupt code for encoder #1
 
 
@@ -165,26 +159,19 @@ void doYaxisENC(){                                  // ************** X- AXIS **
   if (PIND & 0x08) {                                // test for a low-to-high interrupt on channel A, 
      if (!(PIND & 0x20)) {                          // check channel B for which way encoder turned, 
       YaxisENCPos = ++YaxisENCPos;                  // CW rotation
-      PORTB = PINB | 0x01;                          // Set direction output pin to 1 = forward, 
      }
      else {
       YaxisENCPos = --YaxisENCPos;                  // CCW rotation
-      PORTD =PIND & 0xFE;                           // Set direction output pin to 0 = reverse, 
      }
   }
   else {                                            // it was a high-to-low interrupt on channel A
      if (PIND & 0x20) {                             // check channel B for which way encoder turned, 
       YaxisENCPos = ++YaxisENCPos;                  // CW rotation
-      PORTB = PINB | 0x01;                          // Set direction output pin to 1 = forward, 
       }
      else {
       YaxisENCPos = --YaxisENCPos;                  // CCW rotation
-      PORTB =PINB & 0xFE;                           // Set direction output pin to 0 = reverse, 
      }
   }
-  PORTB = PINB | 0x02;                              // digitalWrite(YaxisENCstep, HIGH);   generate step pulse high
-  PORTB = PINB | 0x02;                              // digitalWrite(YaxisENCstep, HIGH);   used to add a small delay
-  PORTB = PINB & 0xFD;                              // digitalWrite(YaxisENCstep, LOW);    reset step pulse
 }                                                   // End of interrupt code for encoder #2
 
 
