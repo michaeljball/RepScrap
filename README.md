@@ -1,7 +1,10 @@
 /***************************************************************************************
-*  Lin_Enc_02.ino   05-12-2014   unix_guru at hotmail.com   @unix_guru on twitter
+*  05-12-2014   unix_guru at hotmail dot com   @unix_guru on twitter
 *  http://arduino-pi.blogspot.com
 *
+*  The purpose of this project is to attempt to create a 3D printer from salvaged 
+*  inkjet and/or laserjet printer parts, hence the name RepScrap.
+*  
 *  This sketch allows you to run two salvaged printer carriages for X/Y axis using their 
 *  linear encoder strips for tracking. 
 *  This example uses the Arduino PID Library found at:
